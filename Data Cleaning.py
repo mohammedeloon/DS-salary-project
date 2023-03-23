@@ -10,8 +10,10 @@ salary  = df['Salary Estimate'].apply(lambda x: x.split('(')[0])
 mins_kd = salary.apply(lambda x: x.replace('K' , '').replace('$' , ''))
 min_hr  = mins_kd.apply(lambda x: x.lower().replace('per hour' , '').replace('employer provided salary' , ''))
 df['min_salary'] = min_hr.apply(lambda x: x.split('-')[0])
+df['min_salary'] = df['min_salary'].apply(lambda x : int(x.replace(':' , '')))
 df['max_salary'] = min_hr.apply(lambda  x: x.split('-')[-1])
-# df['avg_salary'] = (df.min_salary + df.max_salary)/2
+df['max_salary'] = df['max_salary'].apply(lambda x : int(x.replace(':' , '')))
+df['avg_salary'] = (df.min_salary + df.max_salary)/2
 
 #company name text only
 df['company_txt'] = df.apply(lambda x: x['Company Name'] if x['Rating'] < 0 else x['Company Name'][:-3] , axis=1 )
